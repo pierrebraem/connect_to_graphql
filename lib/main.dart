@@ -1,8 +1,12 @@
+import 'package:connect_to_graphql/models/user_model.dart';
+import 'package:connect_to_graphql/services/graphql_service_user.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -20,11 +24,20 @@ class Start extends StatefulWidget {
 }
 
 class HomePage extends State<Start> {
-  final List<String> accounts = <String>[
-    'Carole Thibault',
-    'Wyall Meunier',
-    'Carole Bonnet'
-  ];
+  List<UserModel>? users;
+  GraphQLServiceUser graphQLServiceUser = GraphQLServiceUser();
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  void _load() async {
+    users = null;
+    users = await graphQLServiceUser.getAllUsers();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,42 +46,16 @@ class HomePage extends State<Start> {
         title: const Text("Liste des utilisateurs"),
         centerTitle: true,
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(8),
-              itemCount: accounts.length,
-              itemBuilder: (BuildContext context, int index){
-                return Center(
-                  child: Text(accounts[index])
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => const Divider()
-            )
-          ),
-
-          OverflowBar(
-            alignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FilledButton(
-                onPressed: () {}, 
-                child: const Text('Ajouter')
-              ),
-
-              FilledButton(
-                onPressed: () {}, 
-                child: const Text('Modifier')
-              ),
-
-              FilledButton(
-                onPressed: () => dialogDelete(context),
-                style: FilledButton.styleFrom(backgroundColor: Colors.red),
-                child: const Text('Supprimer')
-              ),
-            ],
+      body: SafeArea(
+        child: users == null ? const Center(child: CircularProgressIndicator())
+        : users!.isEmpty ? const Center(child: Text('Pas d\'utilisateurs')) :
+        ListView.builder(
+          itemCount: users!.length,
+          itemBuilder: (context, index) => ListTile(
+            leading: const Icon(Icons.person),
+            title: Text('${users![index].firstname} ${users![index].lastname}')
           )
-        ]
+        )
       )
     );
   }
