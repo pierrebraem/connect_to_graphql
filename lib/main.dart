@@ -35,6 +35,19 @@ class HomePage extends State<Start> {
       ),
       body: Column(
         children: <Widget>[
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(8),
+              itemCount: accounts.length,
+              itemBuilder: (BuildContext context, int index){
+                return Center(
+                  child: Text(accounts[index])
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => const Divider()
+            )
+          ),
+
           OverflowBar(
             alignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -49,26 +62,43 @@ class HomePage extends State<Start> {
               ),
 
               FilledButton(
-                onPressed: () {}, 
+                onPressed: () => dialogDelete(context),
+                style: FilledButton.styleFrom(backgroundColor: Colors.red),
                 child: const Text('Supprimer')
               ),
             ],
-          ),
-
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(8),
-              itemCount: accounts.length,
-              itemBuilder: (BuildContext context, int index){
-                return Center(
-                  child: Text(accounts[index])
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => const Divider()
-            )
           )
         ]
       )
+    );
+  }
+
+  Future<void> dialogDelete(BuildContext context){
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Suppression d\'un utilisateur'),
+          content: const Text(
+            'Voulez-vous vraiment supprimer cette utilisateur ?'
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Oui'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+
+            TextButton(
+              child: const Text('Non'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ]
+        );
+      }
     );
   }
 }
