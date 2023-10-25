@@ -47,15 +47,41 @@ class HomePage extends State<Start> {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: users == null ? const Center(child: CircularProgressIndicator())
-        : users!.isEmpty ? const Center(child: Text('Pas d\'utilisateurs')) :
-        ListView.builder(
-          itemCount: users!.length,
-          itemBuilder: (context, index) => ListTile(
-            leading: const Icon(Icons.person),
-            title: Text('${users![index].firstname} ${users![index].lastname}')
+        child: users == null ? const Center(child: CircularProgressIndicator()) : 
+        users!.isNotEmpty ? 
+        Column(children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: users!.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: const Icon(Icons.person),
+                title: Text('${users![index].firstname} ${users![index].lastname}')
+              )
+            )
+          ),
+
+          OverflowBar(
+            alignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FilledButton(
+                onPressed : () {},
+                child: const Text('Ajouter')
+              ),
+
+              FilledButton(
+                onPressed : () {},
+                child: const Text('Modifier')
+              ),
+
+              FilledButton(
+                onPressed : () => dialogDelete(context),
+                style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text('Supprimer')
+              ),
+            ],
           )
-        )
+        ])
+        : const Center(child: Text('Pas d\'utilisateurs'))
       )
     );
   }
