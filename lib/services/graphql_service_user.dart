@@ -39,4 +39,8 @@ class GraphQLServiceUser {
       throw Exception(error);
     }
   }
+
+  String addUser(String firstname, String lastname, String email, String username, int age, String password) {
+    return "Bonjour je m'appelle $firstname $lastname et j'ai $age ans. Mon adresse mail est $email, mon pseudo $username et mon mot de passe c'est $password";
+  }
 }

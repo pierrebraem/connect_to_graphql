@@ -1,6 +1,7 @@
 import 'package:connect_to_graphql/models/user_model.dart';
 import 'package:connect_to_graphql/services/graphql_service_user.dart';
 import 'package:flutter/material.dart';
+import 'ajouter.dart';
 
 void main() => runApp(const MyApp());
 
@@ -64,7 +65,12 @@ class HomePage extends State<Start> {
             alignment: MainAxisAlignment.spaceBetween,
             children: [
               FilledButton(
-                onPressed : () => dialogAdd(context),
+                onPressed : () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddPage())
+                  )
+                },
                 child: const Text('Ajouter')
               ),
 
@@ -82,74 +88,6 @@ class HomePage extends State<Start> {
           )
         ])
         : const Center(child: Text('Pas d\'utilisateurs'))
-      )
-    );
-  }
-
-  Future<void> dialogAdd(BuildContext context){
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) => Dialog.fullscreen(
-        child: Column(
-          children: <Widget>[
-            const Text('Ajouter un utilisateur'),
-
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Nom'
-              )
-            ),
-
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Prenom'
-              )
-            ),
-
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Email'
-              )
-            ),
-
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Pseudo'
-              )
-            ),
-
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Age'
-              )
-            ),
-
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Mot de passe'
-              )
-            ),
-
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Ajouter')
-            ),
-
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Annuler')
-            )
-          ])
       )
     );
   }
