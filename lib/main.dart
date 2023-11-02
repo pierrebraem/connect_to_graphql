@@ -64,7 +64,7 @@ class HomePage extends State<Start> {
             alignment: MainAxisAlignment.spaceBetween,
             children: [
               FilledButton(
-                onPressed : () {},
+                onPressed : () => dialogAdd(context),
                 child: const Text('Ajouter')
               ),
 
@@ -86,15 +86,81 @@ class HomePage extends State<Start> {
     );
   }
 
+  Future<void> dialogAdd(BuildContext context){
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => Dialog.fullscreen(
+        child: Column(
+          children: <Widget>[
+            const Text('Ajouter un utilisateur'),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Nom'
+              )
+            ),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Prenom'
+              )
+            ),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Email'
+              )
+            ),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Pseudo'
+              )
+            ),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Age'
+              )
+            ),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Mot de passe'
+              )
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ajouter')
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Annuler')
+            )
+          ])
+      )
+    );
+  }
+
   Future<void> dialogDelete(BuildContext context){
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Suppression d\'un utilisateur'),
-          content: const Text(
-            'Voulez-vous vraiment supprimer cette utilisateur ?'
-          ),
+          content: const Text('Voulez-vous vraiment supprimer cette utilisateur ?'),
           actions: <Widget>[
             TextButton(
               child: const Text('Oui'),
