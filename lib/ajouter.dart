@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AddPage extends StatelessWidget{
   AddPage({super.key});
   GraphQLServiceUser graphQLServiceUser = GraphQLServiceUser();
+  bool? added;
 
   final firstname = TextEditingController();
   final lastname = TextEditingController();
@@ -12,6 +13,11 @@ class AddPage extends StatelessWidget{
   final age = TextEditingController();
   final password = TextEditingController();
 
+  void _add(firstname, lastname, email, username, age, password) async {
+    added = false;
+    added = await graphQLServiceUser.createUser(this.firstname.text, this.lastname.text, this.email.text, this.username.text, int.parse(this.age.text), this.password.text);
+  }
+ 
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -70,22 +76,16 @@ class AddPage extends StatelessWidget{
 
           TextButton(
             onPressed: () {
-              final test = graphQLServiceUser.addUser(firstname.text, lastname.text, email.text, username.text, int.parse(age.text), password.text);
-              showDialog(
-                context: context,
-                builder: (context){
-                  return AlertDialog(
-                    content: Text(test)
-                  );
-                }
-              );
+              _add(firstname, lastname, email, username, age, password);
+
+              Navigator.pop(context, added);
             },
             child: const Text('Ajouter')
           ),
 
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
             child: const Text('Annuler')
           )

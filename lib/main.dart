@@ -66,10 +66,7 @@ class HomePage extends State<Start> {
             children: [
               FilledButton(
                 onPressed : () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddPage())
-                  )
+                  dialogAdd(context)
                 },
                 child: const Text('Ajouter')
               ),
@@ -90,6 +87,32 @@ class HomePage extends State<Start> {
         : const Center(child: Text('Pas d\'utilisateurs'))
       )
     );
+  }
+
+  Future<void> dialogAdd(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddPage())
+    );
+
+    if(!mounted) return;
+
+    if(result != null){
+      ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(
+        result == true ?
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("L'utilisateur a était ajouté")
+        )
+        :
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("Une erreur est survenue")
+        )
+      );
+    }
   }
 
   Future<void> dialogDelete(BuildContext context){
